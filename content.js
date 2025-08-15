@@ -1,0 +1,1 @@
+console.log("Notate: content script loaded");
