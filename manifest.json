@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Notate",
+    "version": "1.0",
+    "description": "Create notes and jump to timestamps within a youtube video.",
+    "permissions": ["storage", "activeTab", "scripting"],
+    "content_scripts": [
+        {
+            "matches": ["*://www.youtube.com/*"],
+            "js": ["content.js"],
+            "css": ["style.css"]
+        }
+    ]
+}
