@@ -1,4 +1,4 @@
-console.log("YouTube Notes: Extension loaded!");
+console.log("Extension loaded!");
 
 // Global variables 
 let showAllNotes = false; //state of showing notes 
@@ -22,7 +22,7 @@ function addPanel() {
     panel.style.right = "20px";
     panel.style.width = "300px";
     panel.style.height = "400px";
-    panel.style.backgroundColor = "white";
+    panel.style.backgroundColor = "#ffe285ff";
     panel.style.border = "2px solid #ffae00e0";
     panel.style.borderRadius = "10px";
     panel.style.padding = "15px";
@@ -33,8 +33,10 @@ function addPanel() {
     // Add title
     const title = document.createElement("h3");
     title.textContent = "NOTATE";
+    title.style.fontFamily = "Charcoal"
     title.style.margin = "0 0 20px 0";
     title.style.color = "#ffae00e0";
+    title.style.fontSize = "25px";
     panel.appendChild(title);
 
     // Add current time display
@@ -95,7 +97,7 @@ function addPanel() {
     notesArea.style.border = "1px solid #ddd";
     notesArea.style.borderRadius = "5px";
     notesArea.style.padding = "10px";
-    notesArea.style.backgroundColor = "#ffe285ff";
+    notesArea.style.backgroundColor = "#fffdf7ff";
     panel.appendChild(notesArea);
 
     // Add panel to page
@@ -129,7 +131,7 @@ function saveCurrentNote() {
 
     // Check if note text is empty
     if (noteText === "") {
-        alert("Please write something before saving!");
+        alert("Please write a note!");
         return;
     }
 
@@ -151,22 +153,22 @@ function saveCurrentNote() {
     allNotes.push(newNote);
 
     // Save to Chrome storage
-    chrome.storage.local.set({ youtubeNotes: allNotes }, function() {
-        console.log("Note saved to storage!");
+    chrome.storage.local.set({ NotesStored: allNotes }, function() {
+    console.log("Note saved to storage!");
         
-        // Clear the input
-        document.getElementById("note-text-input").value = "";
+    // Clear the input
+    document.getElementById("note-text-input").value = "";
         
-        // Refresh the display
-        displayNotes();
+    // Refresh the display
+    displayNotes();
     });
 }
 
 // ------------------- LOAD NOTES FROM STORAGE -------------------
 function loadNotesFromStorage() {
-    chrome.storage.local.get(["youtubeNotes"], function(result) {
-        if (result.youtubeNotes) {
-            allNotes = result.youtubeNotes;
+    chrome.storage.local.get(["NotesStored"], function(result) {
+        if (result.NotesStored) {
+            allNotes = result.NotesStored;
             console.log("Loaded " + allNotes.length + " notes from storage");
         } else {
             allNotes = [];
@@ -209,7 +211,7 @@ function displayNotes() {
 
     //if no notes
     if (videoNotes.length === 0) {
-        notesArea.innerHTML = "<div style='text-align: center; color: #999; padding: 20px;'>📝 No notes yet!<br>Create your first note above.</div>";
+        notesArea.innerHTML = "<div style='text-align: center; font-size: 20px; color: #ffa913ff; padding: 20px;'>No notes yet!</div>";
         return;
     }
 
@@ -222,6 +224,7 @@ function displayNotes() {
             return a.timestamp - b.timestamp;
         });
 
+        //create display notes for all the notes in the message box 
         for (let i = 0; i < videoNotes.length; i++) {
             createNoteElement(videoNotes[i], notesArea);
         }
@@ -229,7 +232,7 @@ function displayNotes() {
         // Show only the current note (the one that matches current video time)
         const video = document.querySelector("video");
         if (video) {
-            const currentTime = video.currentTime;
+            const currentTime = video.currentTime; //set current time to the video's current time
             const currentNote = findCurrentNote(videoNotes, currentTime);
             
             if (currentNote) {
@@ -264,7 +267,7 @@ function findCurrentNote(notes, currentTime) {
     return bestNote;
 }
 
-// ------------------- CREATE A NOTE ELEMENT -------------------
+// ------------------- CREATE A NOTE ELEMENT TO BE DISPLAYED -------------------
 function createNoteElement(note, container) {
     const noteDiv = document.createElement("div");
     noteDiv.style.marginBottom = "10px";
@@ -283,10 +286,10 @@ function createNoteElement(note, container) {
     timeSpan.style.cursor = "pointer";
     timeSpan.style.marginBottom = "5px";
     
-    // When clicked, jump to that time in video
+    // When timestamp element is clicked, jump to that time in video
     timeSpan.onclick = function() {
         const video = document.querySelector("video");
-        if (video) {
+        if (video == true) {
             video.currentTime = note.timestamp;
             console.log("Jumped to time:", formatTime(note.timestamp));
         }
@@ -321,7 +324,7 @@ function startWatchingVideo() {
             }
         }
         
-        // Also check for YouTube navigation
+        // if the user has changed videos 
         if (window.location.href !== currentUrl) {
             currentUrl = window.location.href;
             setTimeout(function() {
@@ -334,7 +337,7 @@ function startWatchingVideo() {
     }, 1000);
 }
 
-// ------------------- HELPER FUNCTION TO FORMAT TIME -------------------
+// ------------------- FORMAT TIME -------------------
 function formatTime(seconds) {
 
     seconds = Math.floor(seconds);
@@ -356,4 +359,5 @@ function formatTime(seconds) {
     return timeString;
 }
 
+//start by adding the panel
 addPanel()
