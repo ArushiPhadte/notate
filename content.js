@@ -35,7 +35,7 @@ function addPanel() {
     title.textContent = "NOTATE";
     title.style.fontFamily = "Charcoal"
     title.style.margin = "0 0 20px 0";
-    title.style.color = "#ffae00e0";
+    title.style.color = "#ff8c08e0";
     title.style.fontSize = "25px";
     panel.appendChild(title);
 
@@ -52,9 +52,10 @@ function addPanel() {
     const noteInput = document.createElement("textarea");
     noteInput.id = "note-text-input";
     noteInput.placeholder = "Write your note here...";
+    noteInput.style.backgroundColor = "#ffedb7ff"
     noteInput.style.width = "100%";
     noteInput.style.height = "60px";
-    noteInput.style.border = "1px solid #444444ff";
+    noteInput.style.border = "1px solid #ffae00ff";
     noteInput.style.borderRadius = "5px";
     noteInput.style.padding = "8px";
     noteInput.style.fontSize = "14px";
@@ -79,7 +80,7 @@ function addPanel() {
     const toggleButton = document.createElement("button");
     toggleButton.textContent = "Show All";
     toggleButton.id = "toggle-notes-button";
-    toggleButton.style.backgroundColor = "#333";
+    toggleButton.style.backgroundColor = "#454545ff";
     toggleButton.style.color = "white";
     toggleButton.style.border = "none";
     toggleButton.style.padding = "8px 15px";
@@ -97,7 +98,7 @@ function addPanel() {
     notesArea.style.border = "1px solid #ddd";
     notesArea.style.borderRadius = "5px";
     notesArea.style.padding = "10px";
-    notesArea.style.backgroundColor = "#fffdf7ff";
+    notesArea.style.backgroundColor = "#ffedb7ff";
     panel.appendChild(notesArea);
 
     // Add panel to page
@@ -239,7 +240,7 @@ function displayNotes() {
                 console.log("Displaying current note:", currentNote.text);
                 createNoteElement(currentNote, notesArea);
             } else {
-                notesArea.innerHTML = "<div style='text-align: center; color: #999; padding: 20px;'>⏰ No note for current time</div>";
+                notesArea.innerHTML = "<div style='text-align: center; color: #ffab02ff; padding: 20px;'>No note for current time</div>";
             }
         }
     }
